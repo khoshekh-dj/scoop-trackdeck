@@ -27,7 +27,7 @@ jobs:
       - name: Install TrackDeck from this bucket
         shell: pwsh
         run: |
-          scoop bucket add trackdeck "$env:GITHUB_WORKSPACE"
+          scoop bucket add trackdeck ([uri]$env:GITHUB_WORKSPACE).AbsoluteUri # file:///D:/...
           scoop install trackdeck/trackdeck
           if ($LASTEXITCODE) { exit 1 }
           $dir = scoop prefix trackdeck
