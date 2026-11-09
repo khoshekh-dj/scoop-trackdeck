@@ -1,0 +1,44 @@
+name: Test install
+
+# Installs TrackDeck from this bucket with Scoop on Windows, then uninstalls it.
+on:
+  push:
+    branches: [main]
+    paths: [bucket/**, .github/workflows/test.yml]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install Scoop
+        shell: pwsh
+        run: |
+          Invoke-RestMethod -Uri https://get.scoop.sh -OutFile install.ps1
+          ./install.ps1 -RunAsAdmin
+          "$env:USERPROFILE\scoop\shims" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+      - name: Install TrackDeck from this bucket
+        shell: pwsh
+        run: |
+          scoop bucket add trackdeck "$env:GITHUB_WORKSPACE"
+          scoop install trackdeck/trackdeck
+          if ($LASTEXITCODE) { exit 1 }
+          $dir = scoop prefix trackdeck
+          foreach ($f in "TrackDeck.exe", "appdata") {
+            if (!(Test-Path "$dir\$f")) { throw "missing $dir\$f" }
+          }
+          $lnk = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Scoop Apps\TrackDeck.lnk"
+          if (!(Test-Path $lnk)) { throw "missing $lnk" }
+          scoop list trackdeck
+      - name: Uninstall
+        shell: pwsh
+        run: |
+          scoop uninstall trackdeck
+          if ($LASTEXITCODE) { exit 1 }
