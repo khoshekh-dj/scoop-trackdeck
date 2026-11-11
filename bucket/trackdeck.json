@@ -1,12 +1,12 @@
 {
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A music player for DJs, with an RGB waveform, a live spectrum visualiser and BPM detection.",
   "homepage": "https://khoshekh-dj.github.io/trackdeck/",
   "license": "GPL-3.0-only",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/khoshekh-dj/trackdeck/releases/download/trackdeck-v1.3.2/TrackDeck-1.3.2-Windows-x64.zip",
-      "hash": "4179e413345d80dbb418390cad7ee4345b8b73bcddddaf84d64848b6dbcb0d80"
+      "url": "https://github.com/khoshekh-dj/trackdeck/releases/download/trackdeck-v1.3.3/TrackDeck-1.3.3-Windows-x64.zip",
+      "hash": "378bc179df6e377c2f73c72ea45c3c938363ef9627884813bc6ddec78ecdce1c"
     }
   },
   "extract_dir": "TrackDeck",
